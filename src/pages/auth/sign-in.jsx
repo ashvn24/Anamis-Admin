@@ -6,12 +6,20 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 
 export function SignIn() {
+
+  const access = localStorage.getItem('access')
+  useEffect(() => {
+    if (access) {
+      navigate('/dashboard/users')
+    }
+  }, [])
+  
 
   const [formdata, setFormdata] = useState({
     email:"",

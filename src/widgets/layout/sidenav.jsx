@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   Avatar,
@@ -17,6 +17,13 @@ export function Sidenav({ brandImg, brandName, routes }) {
     white: "bg-white shadow-sm",
     transparent: "bg-transparent",
   };
+
+  const nav = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem("access");
+    nav('/sign-in')
+  }
 
   return (
     <aside
@@ -61,33 +68,41 @@ export function Sidenav({ brandImg, brandName, routes }) {
               </li>
             )}
             {pages.map(({ icon, name, path }) => (
-              <li key={name}>
-                <NavLink to={`/${layout}${path}`}>
-                  {({ isActive }) => (
-                    <Button
-                      variant={isActive ? "gradient" : "text"}
-                      color={
-                        isActive
-                          ? sidenavColor
-                          : sidenavType === "dark"
-                          ? "white"
-                          : "blue-gray"
-                      }
-                      className="flex items-center gap-4 px-4 capitalize"
-                      fullWidth
-                    >
-                      {icon}
-                      <Typography
-                        color="inherit"
-                        className="font-medium capitalize"
-                      >
-                        {name}
-                      </Typography>
-                    </Button>
-                  )}
-                </NavLink>
-              </li>
-            ))}
+  <li key={name}>
+    {name === "Logout" ? (
+      <Button
+        variant="text"
+        color={sidenavType === "dark" ? "white" : "blue-gray"}
+        className="flex items-center gap-4 px-4 capitalize"
+        fullWidth
+        onClick={handleLogout}
+      >
+        {icon}
+        <Typography color="inherit" className="font-medium capitalize">
+          {name}
+        </Typography>
+      </Button>
+    ) : (
+      <NavLink to={`/${layout}${path}`}>
+        {({ isActive }) => (
+          <Button
+            variant={isActive ? "gradient" : "text"}
+            color={
+              isActive ? sidenavColor : sidenavType === "dark" ? "white" : "blue-gray"
+            }
+            className="flex items-center gap-4 px-4 capitalize"
+            fullWidth
+          >
+            {icon}
+            <Typography color="inherit" className="font-medium capitalize">
+              {name}
+            </Typography>
+          </Button>
+        )}
+      </NavLink>
+    )}
+  </li>
+))}
           </ul>
         ))}
       </div>

@@ -171,7 +171,7 @@ try {
             <tbody>
             {isLoading && <div className="flex  justify-center items-center w-screen"><Spinner color="amber" /></div>}
 
-              {data ? data.map(
+              {data ? data.slice().reverse().map(
                 ({ customer_name, Name, Phone, date, time}, key) => {
                   const className = `py-3 px-5 border-b border-blue-gray-50`
                   
